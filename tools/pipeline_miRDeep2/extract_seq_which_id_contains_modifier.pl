@@ -18,7 +18,7 @@
 #       along with this program; if not, see <http://www.gnu.org/licenses/>.
 
 use strict;
-use lib "/home/knormand/perl5/lib/perl5"; 
+use lib "PATH/perl5/lib/perl5"; #modifier PATH
 use Getopt::Long;
 use Pod::Usage;
 use Bio::Seq;

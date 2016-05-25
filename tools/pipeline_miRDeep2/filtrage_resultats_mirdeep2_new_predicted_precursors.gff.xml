@@ -1,0 +1,17 @@
+<tool id="filtrage_resultats_mirdeep2_new_predicted_precursors.gff" name="filtrage resultats mirdeep2 new_predicted_precursors.gff" version="0.1.0">
+  <description>filtre le fichier resultat tabular de mirdeep2 et creer new_predicted.gff</description>
+  <command interpreter="python">
+	filtrage_resultats_mirdeep2_new_predicted_precursors.gff.py $input > $output
+  </command>
+  <inputs>
+	<param format="tabular" name="input" type="data" label="Source file"/>
+  </inputs>
+  <outputs>
+	<data format="gff" name="output" label="sortie_filtrage_new_predicted.gff"/>
+  </outputs>
+
+  <help>
+filtre le fichier resultat tabular de mirdeep2 et creer new_predicted.gff
+  </help>
+
+</tool>

@@ -1,0 +1,17 @@
+<tool id="filtrage_resultats_mirdeep2_npp_with_know_bos_miRNA.gff" name="filtrage resultats mirdeep2 npp_with_know_bos_miRNA.gff" version="0.1.0">
+  <description>filtre le fichier resultat tabular de mirdeep2 et creer npp_with_know_bos_miRNA.gff</description>
+  <command>
+	awk -F '\t' '{if($1 !="bta-tag id"){print $1 "\t" $18}}' $input | perl -p -e 's/:|\.\./\t/g' | awk -F '\t' '{print $2"\tmiRDeep2\tpredicted_precursor_with_know_bta_mature\t" $3 "\t" $4 "\t.\t" $5 "\t.\t" $1}' > $output
+  </command>
+  <inputs>
+	<param format="tabular" name="input" type="data" label="Source file"/>
+  </inputs>
+  <outputs>
+	<data format="gff" name="output" label="sortie_filtrage_npp_with_know_bos_miRNA.gff"/>
+  </outputs>
+
+  <help>
+filtre le fichier resultat tabular de mirdeep2 et creer npp_with_know_bos_miRNA.gff
+  </help>
+
+</tool>

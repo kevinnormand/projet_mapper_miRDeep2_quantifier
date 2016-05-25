@@ -1,0 +1,17 @@
+<tool id="filtrage_resultats_mirdeep2_new_mirna.csv" name="filtrage resultats mirdeep2 new_mirna.csv" version="0.1.0">
+  <description>filtre le fichier resultat tabular de mirdeep2 et creer new mirna.csv</description>
+  <command interpreter="python">
+	filtrage_resultats_mirdeep2_new_mirna.csv.py $input > $output
+  </command>
+  <inputs>
+	<param format="tabular" name="input" type="data" label="Source file"/>
+  </inputs>
+  <outputs>
+	<data format="tabular" name="output" label="sortie_filtrage_new_miRNA.csv"/>
+  </outputs>
+
+  <help>
+filtre le fichier resultat tabular de mirdeep2 et creer new mirna.csv
+  </help>
+
+</tool>

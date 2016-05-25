@@ -1,0 +1,16 @@
+/home/knormand/perl5/bin/dumpswf.plx
+/home/knormand/perl5/lib/perl5/SWF/BinStream.pm
+/home/knormand/perl5/lib/perl5/SWF/BinStream/Codec.pod
+/home/knormand/perl5/lib/perl5/SWF/BinStream/Codec/Zlib.pm
+/home/knormand/perl5/lib/perl5/SWF/BinStream/File.pm
+/home/knormand/perl5/lib/perl5/SWF/Element.pm
+/home/knormand/perl5/lib/perl5/SWF/Element.pod
+/home/knormand/perl5/lib/perl5/SWF/File.pm
+/home/knormand/perl5/lib/perl5/SWF/Parser.pm
+/home/knormand/perl5/man/man3/SWF::BinStream.3pm
+/home/knormand/perl5/man/man3/SWF::BinStream::Codec.3pm
+/home/knormand/perl5/man/man3/SWF::BinStream::Codec::Zlib.3pm
+/home/knormand/perl5/man/man3/SWF::BinStream::File.3pm
+/home/knormand/perl5/man/man3/SWF::Element.3pm
+/home/knormand/perl5/man/man3/SWF::File.3pm
+/home/knormand/perl5/man/man3/SWF::Parser.3pm

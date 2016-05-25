@@ -1,0 +1,2 @@
+Les programmes mapper, miRDeep2 et quantifier ont été récupérer du travail de rnateam.
+Ici, il s'agit d'utiliser ces logiciels pour un pipeline permettant une automatisation de certaine procédures.

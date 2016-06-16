@@ -1,0 +1,17 @@
+<tool id="filtrage_resultats_mirdeep2_know_bta_mirna.csv" name="filtrage resultats mirdeep2 know_bta_mirna.csv" version="0.1.0">
+  <description>filtre le fichier resultat tabular de mirdeep2 et creer know_bta_mirna.csv</description>
+  <command>
+	cat $input | awk -F '\t' '{if($1 == "mature miRBase miRNAs detected by miRDeep2"){state="ok"}else{if(state=="ok" &amp;&amp; $2 > -100 ){print "bta-" $1 "\t" $0}else{if(state=="ok"){exit}}}}' > $output
+  </command>
+  <inputs>
+	<param format="tabular" name="input" type="data" label="Source file"/>
+  </inputs>
+  <outputs>
+	<data format="tabular" name="output" label="sortie_filtrage_know_bta_mirna.csv"/>
+  </outputs>
+
+  <help>
+filtre le fichier resultat tabular de mirdeep2 et creer know_bta_mirna.csv
+  </help>
+
+</tool>

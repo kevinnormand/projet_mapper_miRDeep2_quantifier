@@ -1,0 +1,17 @@
+<tool id="modification identifier" name="modification identifier" version="0.1.0">
+  <description>modifie l'identifiant des séquences en gardant ce qu'il y a avant l'espace</description>
+  <command interpreter="python">
+	modification_identifier.py $input $output
+  </command>
+  <inputs>
+	<param format="fasta" name="input" type="data" label="Source file"/>
+  </inputs>
+  <outputs>
+	<data format="fasta" name="output" label="sortie_modification_identifier.fa"/>
+  </outputs>
+
+  <help>
+modifie l'identifiant des sequences rencontrees en ne conservant que ce qu'il y a avant le premier espace
+  </help>
+
+</tool>

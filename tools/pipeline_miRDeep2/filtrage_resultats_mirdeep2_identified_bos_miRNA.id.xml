@@ -1,0 +1,17 @@
+<tool id="filtrage_resultats_mirdeep2_identified_bos_miRNA.id" name="filtrage resultats mirdeep2 identified_bos_miRNA.id" version="0.1.0">
+  <description>filtre le fichier resultat tabular de mirdeep2 et creer identified_bos_miRNA.id</description>
+  <command>
+	cut -f 11 $input | grep -v miRBase | sort -u > $output
+  </command>
+  <inputs>
+	<param format="tabular" name="input" type="data" label="Source file"/>
+  </inputs>
+  <outputs>
+	<data format="tabular" name="output" label="sortie_filtrage_identified_bos_miRNA.id"/>
+  </outputs>
+
+  <help>
+filtre le fichier resultat tabular de mirdeep2 et creer identified_bos_miRNA.id
+  </help>
+
+</tool>

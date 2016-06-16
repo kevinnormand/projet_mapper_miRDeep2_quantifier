@@ -1,0 +1,17 @@
+<tool id="filtrage_resultats_mirdeep2_new_mirna.fa" name="filtrage resultats mirdeep2 new_mirna.fa" version="0.1.0">
+  <description>filtre le fichier resultat tabular de mirdeep2 et creer new mirna.fa</description>
+  <command interpreter="python">
+	filtrage_resultats_mirdeep2_new_mirna.fa.py $input > $output
+  </command>
+  <inputs>
+	<param format="tabular" name="input" type="data" label="Source file"/>
+  </inputs>
+  <outputs>
+	<data format="fasta" name="output" label="sortie_filtrage_new_miRNA.fa"/>
+  </outputs>
+
+  <help>
+filtre le fichier resultat tabular de mirdeep2 et creer new mirna.fa
+  </help>
+
+</tool>

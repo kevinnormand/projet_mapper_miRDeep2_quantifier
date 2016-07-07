@@ -1,0 +1,44 @@
+<tool id="traitement_resultats_quantifier" name="Traitement des resultats de quantifier" version="1.0">
+	<description>Treat results of quntifier, remove redundancies and annotates mirna</description>
+	<requirements>
+		<requirement type="package" version="1.0">outil_utile</requirement>
+	</requirements>
+	<command interpreter="bash">
+		traitement_resultats_quantifier.sh $res_quantifier $miRBase $mature_and_new_mapped $espece $option.filtre $nbCondition $option.valeur_filtre
+	</command>
+	<inputs>
+		<param name="res_quantifier" format="tabular" type="data" label="standard output of quantifier"/>
+		<param name="miRBase" format="tabular" type="data" label="file miRBase.mrd of quantifier"/>
+		<param name="mature_and_new_mapped" format="tabular" type="data" label="mature_and_new_mapped"/>
+		<param name="espece" type="text" format="txt" size="30" value="bta" label="search in species"/>
+		<param name="nbCondition" format="txt" size="30" value="1" type="integer" min="1" max="99" label="nomber of conditions"/>
+		<conditional name="option">
+			<param name="filtre" type="select" label="filtre" help="Do you want to apply a filter?">
+				<option value="yes" selected="true"/>
+				<option value="no"/>
+			</param>
+			<when value="yes">
+				<param name="valeur_filtre" format="txt" size="30" value="1" type="integer" label="value of filter"/>
+			</when>
+			<when value="no">
+				<param hidden="true" name="valeur_filtre" format="txt" size="30" value="1" type="integer" label="value of filter"/>
+			</when>
+		</conditional>
+	</inputs>
+	<outputs>
+		<data name="miRNAs_expressed_all_samples.pre_unique.matureSEQ_unique.espece.csv" format="tabular" type="data" from_work_dir="miRNAs_expressed_all_samples.pre_unique.matureSEQ_unique.espece.csv" label="miRNAs_expressed_all_samples.pre_unique.matureSEQ_unique.${espece}.csv"/>
+		<data name="miRNAs_expressed_all_samples.pre_unique.matureID_unique.espece.csv" format="tabular" type="data" from_work_dir="miRNAs_expressed_all_samples.pre_unique.matureID_unique.espece.csv" label="miRNAs_expressed_all_samples.pre_unique.matureID_unique.${espece}.csv"/>
+		<data name="log" format="tabular" type="data" from_work_dir="log.txt" label="log.txt"/>
+		<data name="tableau_recapitulatif" format="tabular" type="data" from_work_dir="tableau_recapitulatif" label="summary table"/>
+	</outputs>
+	<help>
+**What it does**
+Treat results of Quantifier to remove redundants miRNAs and annotates news miRNA by homologie.
+
+**Input**
+A standard results file of Quantifier, the file miRBase.mrd produced by Quantifier and the file with the mapping of miRNAs.
+
+**Output**
+
+	</help>
+</tool>

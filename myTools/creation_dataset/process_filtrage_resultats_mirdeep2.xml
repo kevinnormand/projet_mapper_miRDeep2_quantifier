@@ -1,0 +1,71 @@
+<tool id="process_filtrage_resultats_mirdeep2" name="Process filtrage resultats mirdeep2" version="1.0">
+	<description>Process results of miRDeep2 and create references for quantifier</description>
+	<requirements>
+		 <requirement type="package" version="1.0">outil_utile</requirement>
+    </requirements>
+	<command interpreter="bash">
+		<![CDATA[
+			#if $choix=="same"
+				process_filtrage_resultats_mirdeep2_cas_ref_meme_recherche.sh $resultats_mirdeep $word $option.score_new $option.randfold $option.exemple_mirbase $option.score_know $mature $precurseur_espece_sans_espace $mature_and_new $hairpin_espece_and_new $log
+			#end if
+			#if $choix=="different"
+				process_filtrage_resultats_mirdeep2_cas_ref_different_recherche.sh $resultats_mirdeep $word $option.score_new $option.randfold $option.exemple_mirbase $option.score_know $mature $precurseur_espece_sans_espace $mature_and_new $hairpin_espece_and_new $log
+			#end if
+		]]>
+	</command>
+	<inputs>	
+		<param name="choix" type="select" label="choice reference/specie" help="reference specie and specie studied different?">
+			<option value="same" selected="true"/>
+			<option value="different"/>				
+		</param>
+		<param format="tabular" name="resultats_mirdeep" type="data" label="results of mirdeep2"/>
+		<param format="txt" name="word" size="30" value="bta" type="text" label="label for word recherched"/>
+		<param format="fasta" name="mature" type="data" label="mature.fa"/>
+		<param format="fasta" name="precurseur_espece_sans_espace" type="data" label="precurseur_espece_sans_espace.fa"/>
+		<conditional name="option">
+			<param name="choixOption" type="select" label="chek option">
+				<option value="no">No</option>
+				<option value="yes">Yes</option>
+			</param>
+			<when value="no">
+				<param hidden="true" format="txt" name="score_new" size="30" value="0" type="float" min="0" max="10" label="score for the filtering of news mirna"/>
+				<param hidden="true" name="randfold" type="select" label="option significant randfold" help="Do you want to retrieve only miRNA with significant randfold?">
+					<option value="no" selected="true"/>
+					<option value="yes"/>
+				</param>
+				<param hidden="true" name="exemple_mirbase" type="select" label="option example miRNA with same seed region in mirbase" help="Do you want to retrieve only miRNAs without example of same seed region in miRBase?">
+					<option value="no" selected="true"/>
+					<option value="yes"/>
+				</param>
+				<param hidden="true" format="txt" name="score_know" size="30" value="-50" type="float" min="-100" label="score for the filtering of knows miRNA"/>
+			</when>
+			<when value="yes">
+				<param format="txt" name="score_new" size="30" value="0" type="float" min="0" max="10" label="score for the filtering of news mirna"/>
+				<param name="randfold" type="select" label="option significant randfold" help="Do you want to retrieve only miRNA with significant randfold?">
+					<option value="no" selected="true"/>
+					<option value="yes"/>
+				</param>
+				<param name="exemple_mirbase" type="select" label="option example miRNA with same seed region in mirbase" help="Do you want to retrieve only miRNAs without example of same seed region in miRBase?">
+					<option value="no" selected="true"/>
+					<option value="yes"/>
+				</param>
+				<param format="txt" name="score_know" size="30" value="-50" type="float" min="-100" label="score for the filtering of knows miRNA"/>
+			</when>
+		</conditional>
+	</inputs>
+	<outputs>
+		<data format="fasta" name="mature_and_new" type="data" from_work_dir="mature_and_new.fa" label="mature_and_new.fa"/>
+		<data format="fasta" name="hairpin_espece_and_new" type="data" from_work_dir="hairpin_espece_and_new.fa" label="hairpin_${word}_and_new.fa"/>
+		<data format="tabular" name="log" type="data" from_work_dir="log.txt" label="log.txt"/>
+	</outputs>
+	<help>
+**What it does**
+Use results of miRDeep2 core to prepare dataset for the next module Quantifier.
+
+**Input**
+A file format csv or tabular for Galaxy which is one output file of miRDeep2 core.
+
+**Output**
+A file which is the dataset of miRNA, a file dataset of precursors and a file log to verify the program flow.
+	</help>
+</tool>

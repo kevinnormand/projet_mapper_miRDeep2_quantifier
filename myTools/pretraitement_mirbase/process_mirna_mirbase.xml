@@ -1,0 +1,29 @@
+<tool id="process_hairpin_and_mature_of_miRBase" name="Process hairpin and mature file of miRBase" version="1.0">
+	<description>Process files hairpin.fa and mature.fa of miRBase to use for miRDeep2</description>
+	<requirements>
+		 <requirement type="package" version="1.0">outil_utile</requirement>
+    </requirements>
+	<command interpreter="bash">
+		process.sh $hairpin $mature $word
+	</command>
+	<inputs>
+		<param format="fasta" name="hairpin" type="data" label="Source hairpin file"/>
+		<param format="fasta" name="mature" type="data" label="Source mature file"/>
+		<param format="txt" name="word" size="30" value="bta" type="text" label="label for word recherched"/>
+	</inputs>
+	<outputs>
+		<data format="fasta" name="precurseur_espece_sans_espace.fa" type="data" from_work_dir="precurseur_espece_sans_espace" label="precurseur_${word}_sans_espace.fa"/>
+		<data format="fasta" name="mirna_mature_espece_sans_espace.fa" type="data" from_work_dir="mirna_mature_espece_sans_espace" label="mirna_mature_${word}_sans_espace.fa"/>
+		<data format="fasta" name="mirna_mature_no_espece_sans_espace.fa" type="data" from_work_dir="mirna_mature_no_espece_sans_espace" label="mirna_mature_no_${word}_sans_espace.fa"/>
+	</outputs>
+	<help>
+**What it does**
+Prepare files mature and hairpin using the format of miRBase to be used in the next module miRDeep2.
+
+**Input**
+Two file format FASTA (a file of miRNAs and an other of precursors) and a prefixe of three letters.
+
+**Output**
+A file FASTA containing precursors of specie studied without spaces, a file FASTA containing miRNAs of specie studied without spaces and a file FASTA containing miRNAs others species without spaces.
+	</help>
+</tool>

@@ -1,0 +1,33 @@
+<tool name="creation config" id="creation_config">
+	<description>tool to create a file which contains names of files used for pipeline</description>
+	<command interpreter="python">
+			creation_config.py $script_file > $config_file
+	</command>
+	<inputs>
+		<repeat name="series" title="series">
+			<param name="input" type="data" format="fasta, fastq" label="File to create the configuration file"/>		
+		</repeat>
+	</inputs>
+	<configfiles>
+		<configfile name="script_file">
+			#for $i, $s in enumerate( $series )
+				s${i}="${s.input.file_name}"
+			#end for
+		</configfile>	
+	</configfiles>
+	<outputs>
+		<data format="txt" name="config_file" type="data" label="config_file"/>
+	</outputs>
+    <help>
+**What it does**
+The module create a file containing names of diffrents file at format fasta or fastq. This file is used by the next module Mapper with option -d.
+
+**Input**
+
+Several FASTA or FASTQ (one option at choose) file where each has sequences of potential mirna
+
+**Output**
+
+A file containing names of different files FASTA or FASTQ
+    </help>
+</tool>

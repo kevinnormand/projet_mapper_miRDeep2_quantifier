@@ -1,0 +1,26 @@
+<tool id="process_reference" name="Process reference" version="1.0">
+	<description>Process file of reference to use in miRDeep2</description>
+	<requirements>
+		 <requirement type="package" version="1.0">outil_utile</requirement>
+    </requirements>
+	<command interpreter="bash">
+		process_ref.sh $reference
+	</command>
+	<inputs>
+		<param format="fasta" name="reference" type="data" label="Source reference file"/>
+		<param format="txt" name="word" size="30" value="bta" type="text" label="label for word recherched"/>
+	</inputs>
+	<outputs>
+		<data format="fasta" name="genome_${word}_sans_espace.fa" type="data" from_work_dir="genome_espece_sans_espace" label="genome_${word}_sans_espace.fa"/>
+	</outputs>
+	<help>
+**What it does**
+Prepare reference file FASTA used in the next module miRDeep2.
+
+**Input**
+A file format FASTA which is the reference genome of specie studied, and a word of three letters to indicate specie studied.
+
+**Output**
+A file FASTA containing genome of specie studied without spaces.
+	</help>
+</tool>

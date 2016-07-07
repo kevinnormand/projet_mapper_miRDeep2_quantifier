@@ -1,0 +1,192 @@
+#############Documentation pour l'installation complete#######
+
+#############modification pour galaxy-dev admin et préparation à l'intégration##############
+
+récupérer clone sur https://github.com/galaxyproject/galaxy/
+extraire
+aller dans galaxy-dev
+
+aller dans config
+
+modifier galaxy.ini.sample en galaxy.ini
+modifier migrated_tools_conf.xml.sample en migrated_tools_conf.xml
+modifier shed_data_manager_conf.xml.sample en shed_data_manager_conf.xml
+modifier shed_tool_conf.xml.sample en shed_tool_conf.xml
+modifier shed_tool_data_table_conf.xml.sample en shed_tool_data_table_conf.xml
+modifier tool_conf.xml.sample en tool_conf.xml
+modifier tool_data_table_conf.xml.sample en tool_data_table_conf.xml
+modifier tools_sheds_conf.xml.sample en tools_sheds_conf.xml
+
+dans galaxy.ini
+
+l36 -> host = 0.0.0.0 (tenter décommenter)
+l140 -> décommenter
+l173 -> décommenter et modifier None par path/to/galaxy/dependency_dir
+l204 -> décommenter 
+l232 -> décommenter
+l240 -> décommenter"creat
+l252 -> décommenter
+l902 -> décommenter et modifier None par l'adresse qui sera administrateur (plusieur possible en séparant par une virgule)
+
+lancer galaxy avec "sh run.sh"
+s'enregister
+#################################################################
+
+##############récupération des outils nécessaire#################
+
+Les modules de miRDeep2 vont avoir besoin de certaines dépendance importer lorsqu'on l'importe via les outils existants.
+
+Dans Admin, Search tool shed, galaxy main tool shed, search for valid tools
+taper mirdeep2 dans name
+cocher mirdeep2, mirdeep2_mapper, mirdeep2_quantifier et cliquer sur install in your galaxy
+ajouter le nouveau panel dans lequel se trouve le projet (ex: "Project") et installer
+#################################################################
+
+################remise a zéro du projet##########################
+
+dans le repertoire config
+dans le fichier shed_tool_conf.xml, mettre en commentaire les trois section avec "id=project" (<!--   -->)
+dans le fichier shed_toolm_data_table_conf.xml, mettre en commentaire la table avec "name=bowtie_indexes"
+relancer galaxy
+##################################################################
+
+###############importer les fichier de base des tratements########
+
+dans l'interface Galaxy
+dans "Get Data"
+utliser "Upload File" pour importer le fichier nécessaire
+	les 4 fichier de résultats
+	les fichier de hairpin et mature (bientot modifier)
+	le fichier fasta de la reference (bientot modifier) compresser (galaxy devrait décompresser automatiquement)
+##################################################################
+
+###############intégration des outils modifer#####################
+
+dans repertoire tools, créer le repertoire myTools
+dans config, dans le fichier tool_conf.xml, créer une nouvelle section pour "Project" semblable à celui que vous avez mis en commentaire.
+				<section id="project" name="Project">	
+				</section>
+
+###outil de creation de configuration###
+dans tools/myTools, créer le repertoire "creation_configuration"
+importer les fichiers "creation_config.xml" et "creation_config.py"
+dans config, dans le fichier tool_conf.xml, ajouter dans la section project
+				<section id="project" name="Project"> (ne pas ajouter cette ligne)
+					<tool file="myTools/creation_configuration/creation_config.xml"/>
+				</section> (ne pas ajouter cette ligne)
+
+###outil d'alignement###
+dans tools/myTools, créer le repertoire "mapper"
+importer le xml modifier de mapper
+dans config, dans le fichier tool_conf.xml, ajouter dans la section project
+				<section id="project" name="Project"> (ne pas ajouter cette ligne)
+					<tool file="myTools/creation_configuration/creation_config.xml"/> (déja ajouter)
+					<tool file="myTools/mapper/mapper.xml"/>
+				</section> (ne pas ajouter cette ligne)
+dand galaxy-dev, importer le repertoire "references"
+dans tool-data, dans fichier bowtie_indices.loc, ajouter les lignes correspondant au différent genome indéxé par bowtie
+			Bos_taurus.UMD3.1.dna.toplevel	Bos_taurus.UMD3.1.dna.toplevel	Bos Taurus Bos_taurus.UMD3.1.dna.toplevel Ensembl	chemin_complet
+			bosTau8	bosTau8	bosTau8 (Bos taurus) UCSC	chemin_complet
+dans tool-data/shared/ucsc, dans fichier builds.txt, ajouter les informations ajouter dans le .loc sans les chemins
+			Bos_taurus.UMD3.1.dna.toplevel	Bos_taurus.UMD3.1.dna.toplevel	Bos Taurus Bos_taurus.UMD3.1.dna.toplevel Ensembl
+			bosTau8	bosTau8	bosTau8 (Bos taurus) UCSC
+dans config, fichier tool_data_table_conf.xml, ajouter
+				    <!--bowtie index-->
+					<table name="bowtie_indexes" comment_char="#">
+						<columns>value, dbkey, name, path</columns>
+						<file path="tool-data/bowtie_indices.loc" />
+					</table>
+ATTENTION dans les repertoires dans path/to/galaxy/dependency_dir/bowtie ou mirdeep2_mapper ou perl il faut placer les env.sh dans le repertoire donnant la version. (les env.sh sont plus en profonduer, il faut les remonter)
+
+### outil de prétraitement###
+1ere partie : 
+dans tools/myTools, créer le repertoire "pretraitement_mirbase"
+importer le xml "process_mirna_mirbase.xml" et le sh "process.sh"
+dans config, dans le fichier tool_conf.xml, ajouter dans la section project
+				<section id="project" name="Project"> (ne pas ajouter cette ligne)
+					<tool file="myTools/creation_configuration/creation_config.xml"/> (déja ajouter)
+					<tool file="myTools/mapper/mapper.xml"/> (déjà ajouter)
+					<tool file="myTools/pretraitement_mirbase/process_mirna_mirbase.xml"/>
+				</section> (ne pas ajouter cette ligne)
+dans path/to/galaxy/dependency_dir/, créer "outil_utile" et importer les outils et le env.sh associé
+ATTENTION le fichier process n'arrive pas a lancer les outils pythons et a du mal avec cette interpreteur, il faut mettre dans le code le chemin complet (a changer en perl)
+
+2eme partie : 
+dans tools/myTools, créer le repertoire "pretraitement_reference"
+importer le xml et le sh avec modif du chemin de la ligne python dans le sh
+dans config, dans le fichier tool_conf.xml, ajouter dans la section project
+				<section id="project" name="Project"> (ne pas ajouter cette ligne)
+					<tool file="myTools/creation_configuration/creation_config.xml"/> (déja ajouter)
+					<tool file="myTools/mapper/mapper.xml"/> (déjà ajouter)
+					<tool file="myTools/pretraitement_mirbase/process_mirna_mirbase.xml"/> (déja ajouter)
+					<tool file="myTools/pretraitement_reference/process_ref.xml"/>
+				</section> (ne pas ajouter cette ligne)
+
+###outil de prédiction###
+dans config, dans "fichier shed_tool_conf.xml"
+décommenter la partie section appelant mirdeep2 (repository_name=>mirdeep2) !!!!!erreur!!!!!
+
+dans tools/myTools, créer le repertoire "coeur_mirdeep2"
+importer le "mirdeep2.xml" modifié
+dans config, dans le fichier tool_conf.xml, ajouter dans la section project
+				<section id="project" name="Project"> (ne pas ajouter cette ligne)
+					<tool file="myTools/creation_configuration/creation_config.xml"/> (déja ajouter)
+					<tool file="myTools/mapper/mapper.xml"/> (déjà ajouter)
+					<tool file="myTools/pretraitement_mirbase/process_mirna_mirbase.xml"/> (déja ajouter)
+					<tool file="myTools/pretraitement_reference/process_ref.xml"/> (déja ajouter)
+					<tool file="myTools/coeur_mirdeep2/mirdeep2.xml"/>
+				</section> (ne pas ajouter cette ligne)
+mettre les env.sh des dépendances au bon endroit
+ajouter les outils rnafold et randfold manuellement avec le env.sh car probleme d'installation
+
+###outil de creation de dataset de reference pour la quantification###
+dans toos/myTools, créer le repertoire "creation_dataset"
+importer les fichier "process_filtrage_resultats_mirdeep2.xml", "process_filtrage_resultats_mirdeep2_cas_ref_different_recherche.sh" et "process_filtrage_resultats_mirdeep2_cas_ref_meme_recherche.sh" ATTENTION modif
+dans config, dans le fichier tool_conf.xml, ajouter dans la section project
+				<section id="project" name="Project"> (ne pas ajouter cette ligne)
+					<tool file="myTools/creation_configuration/creation_config.xml"/> (déja ajouter)
+					<tool file="myTools/mapper/mapper.xml"/> (déjà ajouter)
+					<tool file="myTools/pretraitement_mirbase/process_mirna_mirbase.xml"/> (déja ajouter)
+					<tool file="myTools/pretraitement_reference/process_ref.xml"/> (déja ajouter)
+					<tool file="myTools/coeur_mirdeep2/mirdeep2.xml"/>(déja ajouter)
+					<tool file="myTools/creation_dataset/process_filtrage_resultats_mirdeep2.xml"/>
+				</section> (ne pas ajouter cette ligne)
+ajouter dans outil utile l'outil manquant "extract_seqs_by..."
+
+###outil de quantification###
+dans tools/myTools, créer le repertoire "quantifier"
+importer le fichier "quantifer.xml"
+dans config, dans le fichier tool_conf.xml, ajouter dans la section project
+				<section id="project" name="Project"> (ne pas ajouter cette ligne)
+					<tool file="myTools/creation_configuration/creation_config.xml"/> (déja ajouter)
+					<tool file="myTools/mapper/mapper.xml"/> (déjà ajouter)
+					<tool file="myTools/pretraitement_mirbase/process_mirna_mirbase.xml"/> (déja ajouter)
+					<tool file="myTools/pretraitement_reference/process_ref.xml"/> (déja ajouter)
+					<tool file="myTools/coeur_mirdeep2/mirdeep2.xml"/>(déja ajouter)
+					<tool file="myTools/creation_dataset/process_filtrage_resultats_mirdeep2.xml"/>(déja ajouter)
+					<tool file="myTools/quantifier/quantifier.xml"/>
+				</section> (ne pas ajouter cette ligne)
+				
+quantifier.pl a été modifier ligne 1075 avec ajout de "|" et la commande suivante qui est proche de celle avant
+
+###outil de traitement des résultats de quantifier###
+dans tools/mytools, créer le repertoire "traitemenent_resultats_quantifier"
+importer les fichiers "traitement_resultats_quantifier.sh" et "traitement_resultats_quantifier.xml"
+dans config, dans le fichier tool_conf.xml, ajouter dans la section project
+				<section id="project" name="Project"> (ne pas ajouter cette ligne)
+					<tool file="myTools/creation_configuration/creation_config.xml"/> (déja ajouter)
+					<tool file="myTools/mapper/mapper.xml"/> (déjà ajouter)
+					<tool file="myTools/pretraitement_mirbase/process_mirna_mirbase.xml"/> (déja ajouter)
+					<tool file="myTools/pretraitement_reference/process_ref.xml"/> (déja ajouter)
+					<tool file="myTools/coeur_mirdeep2/mirdeep2.xml"/>(déja ajouter)
+					<tool file="myTools/creation_dataset/process_filtrage_resultats_mirdeep2.xml"/>(déja ajouter)
+					<tool file="myTools/quantifier/quantifier.xml"/>(déja ajouter)
+					<tool file="myTools/traitement_resultats_quantifier/traitement_resultats_quantifier.xml"/>
+				</section> (ne pas ajouter cette ligne)
+
+ATTENTION le chemin de l'outil parse_miRDeep2_output.pl... doit voir son chemin modifier
+
+###conception du workflow###
+relancer Galaxy
+dans l'interface de galaxy, aller dans l'onglet workflow dans le borderau bleu au-dessus.
+créer un nouveaux workflow en utilisant les modules venant d'être intégrer

@@ -1,0 +1,37 @@
+<?xml version="1.0"?>
+<toolbox tool_path="../shed_tools">
+<!--
+<section id="project" name="Project" version="">
+  <tool file="toolshed.g2.bx.psu.edu/repos/rnateam/mirdeep2_mapper/12fc62b7dc09/mirdeep2_mapper/mapper.xml" guid="toolshed.g2.bx.psu.edu/repos/rnateam/mirdeep2_mapper/rbc_mirdeep2_mapper/2.0.0">
+      <tool_shed>toolshed.g2.bx.psu.edu</tool_shed>
+        <repository_name>mirdeep2_mapper</repository_name>
+        <repository_owner>rnateam</repository_owner>
+        <installed_changeset_revision>12fc62b7dc09</installed_changeset_revision>
+        <id>toolshed.g2.bx.psu.edu/repos/rnateam/mirdeep2_mapper/rbc_mirdeep2_mapper/2.0.0</id>
+        <version>2.0.0</version>
+    </tool>
+</section>
+
+<section id="project" name="Project" version="">
+  <tool file="toolshed.g2.bx.psu.edu/repos/rnateam/mirdeep2/d0faf81ccc99/mirdeep2/mirdeep2.xml" guid="toolshed.g2.bx.psu.edu/repos/rnateam/mirdeep2/rbc_mirdeep2/2.0.0">
+      <tool_shed>toolshed.g2.bx.psu.edu</tool_shed>
+        <repository_name>mirdeep2</repository_name>
+        <repository_owner>rnateam</repository_owner>
+        <installed_changeset_revision>d0faf81ccc99</installed_changeset_revision>
+        <id>toolshed.g2.bx.psu.edu/repos/rnateam/mirdeep2/rbc_mirdeep2/2.0.0</id>
+        <version>2.0.0</version>
+    </tool>
+</section>
+
+<section id="project" name="Project" version="">
+  <tool file="toolshed.g2.bx.psu.edu/repos/rnateam/mirdeep2_quantifier/40dc77f3730c/mirdeep2_quantifier/quantifier.xml" guid="toolshed.g2.bx.psu.edu/repos/rnateam/mirdeep2_quantifier/rbc_mirdeep2_quantifier/2.0.0">
+      <tool_shed>toolshed.g2.bx.psu.edu</tool_shed>
+        <repository_name>mirdeep2_quantifier</repository_name>
+        <repository_owner>rnateam</repository_owner>
+        <installed_changeset_revision>40dc77f3730c</installed_changeset_revision>
+        <id>toolshed.g2.bx.psu.edu/repos/rnateam/mirdeep2_quantifier/rbc_mirdeep2_quantifier/2.0.0</id>
+        <version>2.0.0</version>
+    </tool>
+</section>
+-->
+</toolbox>

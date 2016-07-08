@@ -109,7 +109,6 @@ dans config, dans le fichier tool_conf.xml, ajouter dans la section project
 					<tool file="myTools/pretraitement_mirbase/process_mirna_mirbase.xml"/>
 				</section> (ne pas ajouter cette ligne)
 dans path/to/galaxy/dependency_dir/, créer "outil_utile" et importer les outils et le env.sh associé
-ATTENTION le fichier process n'arrive pas a lancer les outils pythons et a du mal avec cette interpreteur, il faut mettre dans le code le chemin complet (a changer en perl)
 
 2eme partie : 
 dans tools/myTools, créer le repertoire "pretraitement_reference"
@@ -122,9 +121,7 @@ dans config, dans le fichier tool_conf.xml, ajouter dans la section project
 					<tool file="myTools/pretraitement_reference/process_ref.xml"/>
 				</section> (ne pas ajouter cette ligne)
 
-###outil de prédiction###
-dans config, dans "fichier shed_tool_conf.xml"
-décommenter la partie section appelant mirdeep2 (repository_name=>mirdeep2) !!!!!erreur!!!!!
+###outil de prédiction###s
 
 dans tools/myTools, créer le repertoire "coeur_mirdeep2"
 importer le "mirdeep2.xml" modifié
@@ -141,7 +138,7 @@ ajouter les outils rnafold et randfold manuellement avec le env.sh car probleme 
 
 ###outil de creation de dataset de reference pour la quantification###
 dans toos/myTools, créer le repertoire "creation_dataset"
-importer les fichier "process_filtrage_resultats_mirdeep2.xml", "process_filtrage_resultats_mirdeep2_cas_ref_different_recherche.sh" et "process_filtrage_resultats_mirdeep2_cas_ref_meme_recherche.sh" ATTENTION modif
+importer les fichier "process_filtrage_resultats_mirdeep2.xml", "process_filtrage_resultats_mirdeep2_cas_ref_different_recherche.sh" et "process_filtrage_resultats_mirdeep2_cas_ref_meme_recherche.sh"
 dans config, dans le fichier tool_conf.xml, ajouter dans la section project
 				<section id="project" name="Project"> (ne pas ajouter cette ligne)
 					<tool file="myTools/creation_configuration/creation_config.xml"/> (déja ajouter)
@@ -183,8 +180,6 @@ dans config, dans le fichier tool_conf.xml, ajouter dans la section project
 					<tool file="myTools/quantifier/quantifier.xml"/>(déja ajouter)
 					<tool file="myTools/traitement_resultats_quantifier/traitement_resultats_quantifier.xml"/>
 				</section> (ne pas ajouter cette ligne)
-
-ATTENTION le chemin de l'outil parse_miRDeep2_output.pl... doit voir son chemin modifier
 
 ###conception du workflow###
 relancer Galaxy

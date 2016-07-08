@@ -19,12 +19,12 @@ modifier tools_sheds_conf.xml.sample en tools_sheds_conf.xml
 
 dans galaxy.ini
 
-l36 -> host = 0.0.0.0 (tenter décommenter)
+l36 -> host = 0.0.0.0, décommentez
 l140 -> décommenter
 l173 -> décommenter et modifier None par path/to/galaxy/dependency_dir
 l204 -> décommenter 
 l232 -> décommenter
-l240 -> décommenter"creat
+l240 -> décommenter
 l252 -> décommenter
 l902 -> décommenter et modifier None par l'adresse qui sera administrateur (plusieur possible en séparant par une virgule)
 
@@ -46,11 +46,11 @@ ajouter le nouveau panel dans lequel se trouve le projet (ex: "Project") et inst
 
 dans le repertoire config
 dans le fichier shed_tool_conf.xml, mettre en commentaire les trois section avec "id=project" (<!--   -->)
-dans le fichier shed_toolm_data_table_conf.xml, mettre en commentaire la table avec "name=bowtie_indexes"
+dans le fichier shed_tool_data_table_conf.xml, mettre en commentaire la table avec "name=bowtie_indexes"
 relancer galaxy
 ##################################################################
 
-###############importer les fichier de base des tratements########
+###############importer les fichier de base des traitements########
 
 dans l'interface Galaxy
 dans "Get Data"

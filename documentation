@@ -121,7 +121,7 @@ dans config, dans le fichier tool_conf.xml, ajouter dans la section project
 					<tool file="myTools/pretraitement_reference/process_ref.xml"/>
 				</section> (ne pas ajouter cette ligne)
 
-###outil de prédiction###s
+###outil de prédiction###
 
 dans tools/myTools, créer le repertoire "coeur_mirdeep2"
 importer le "mirdeep2.xml" modifié

@@ -55,9 +55,9 @@ relancer galaxy
 dans l'interface Galaxy
 dans "Get Data"
 utliser "Upload File" pour importer le fichier nécessaire
-	les 4 fichier de résultats
-	les fichier de hairpin et mature (bientot modifier)
-	le fichier fasta de la reference (bientot modifier) compresser (galaxy devrait décompresser automatiquement)
+	les 4 fichier de sortie de séquenceurs
+	les fichier de hairpin et mature - lien : http://www.mirbase.org/ftp.shtml
+	le fichier fasta de la reference compresser (galaxy devrait décompresser automatiquement) - lien : ftp://ftp.ensembl.org/pub/release-84/fasta/bos_taurus/dna/
 ##################################################################
 
 ###############intégration des outils modifer#####################
@@ -85,18 +85,41 @@ dans config, dans le fichier tool_conf.xml, ajouter dans la section project
 				</section> (ne pas ajouter cette ligne)
 dand galaxy-dev, importer le repertoire "references"
 dans tool-data, dans fichier bowtie_indices.loc, ajouter les lignes correspondant au différent genome indéxé par bowtie
-			Bos_taurus.UMD3.1.dna.toplevel	Bos_taurus.UMD3.1.dna.toplevel	Bos Taurus Bos_taurus.UMD3.1.dna.toplevel Ensembl	chemin_complet
-			bosTau8	bosTau8	bosTau8 (Bos taurus) UCSC	chemin_complet
+			Bos_taurus.UMD3.1.dna.toplevel	Bos_taurus.UMD3.1.dna.toplevel	Bos Taurus Bos_taurus.UMD3.1.dna.toplevel Ensembl	chemin_absolu(/home/knormand/Bureau/galaxy-dev/references/Bos_taurus/Bos_taurus.UMD3.1.dna.toplevel/ebwt/Bos_taurus.UMD3.1.dna.toplevel) sans l'extension
+			bosTau8	bosTau8	bosTau8 (Bos taurus) UCSC	chemin_absolu
+dans tool-data, créer le fichier mature_indices.loc et ajouter la ligne : 
+			mature04_2016	mature04_2016	mature april 2016 miRBase	chemin absolue avec extension (/home/knormand/Bureau/galaxy-dev/references/mature/miRBase21/mature04_2016.fa)
+dans tool-data, créer le fichier hairpin_indices.loc et ajouter la ligne :
+			hairpin04-2016	hairpin04-2016	hairpin april 2016 miRBase	/home/knormand/Bureau/galaxy-dev/references/hairpin/miRBase21/hairpin04-2016.fa
+dans tool-data, créer le fichier genome_indices.loc et ajouter la ligne :
+			Bos_taurus.UMD3.1.dna.toplevel	Bos_taurus.UMD3.1.dna.toplevel	Bos Taurus Bos_taurus.UMD3.1.dna.toplevel Ensembl	/home/knormand/Bureau/galaxy-dev/references/Bos_taurus/Bos_taurus.UMD3.1.dna.toplevel/fasta/Bos_taurus.UMD3.1.dna.toplevel.fa
 dans tool-data/shared/ucsc, dans fichier builds.txt, ajouter les informations ajouter dans le .loc sans les chemins
 			Bos_taurus.UMD3.1.dna.toplevel	Bos_taurus.UMD3.1.dna.toplevel	Bos Taurus Bos_taurus.UMD3.1.dna.toplevel Ensembl
 			bosTau8	bosTau8	bosTau8 (Bos taurus) UCSC
+			mature04_2016.fa	mature04_2016.fa	mature april 2016 miRBase
+			hairpin04-2016.fa	hairpin04-2016.fa	hairpin april 2016 miRBase
 dans config, fichier tool_data_table_conf.xml, ajouter
 				    <!--bowtie index-->
 					<table name="bowtie_indexes" comment_char="#">
 						<columns>value, dbkey, name, path</columns>
 						<file path="tool-data/bowtie_indices.loc" />
 					</table>
-ATTENTION dans les repertoires dans path/to/galaxy/dependency_dir/bowtie ou mirdeep2_mapper ou perl il faut placer les env.sh dans le repertoire donnant la version. (les env.sh sont plus en profonduer, il faut les remonter)
+					<!--mature index-->
+					<table name="mature_indexes" comment_char="#">
+						<columns>value, dbkey, name, path</columns>
+						<file path="tool-data/mature_indices.loc" />
+					</table>
+					<!--hairpin index-->
+					<table name="hairpin_indexes" comment_char="#">
+						<columns>value, dbkey, name, path</columns>
+						<file path="tool-data/hairpin_indices.loc" />
+					</table>
+					<!--genome index-->
+					<table name="genome_indexes" comment_char="#">
+						<columns>value, dbkey, name, path</columns>
+						<file path="tool-data/genome_indices.loc" />
+					</table>
+ATTENTION dans les repertoires dans path/to/galaxy/dependency_dir/bowtie ou mirdeep2_mapper ou perl il faut placer les env.sh dans le repertoire donnant la version. (les env.sh sont plus en profondeur, il faut les remonter)
 
 ### outil de prétraitement###
 1ere partie : 

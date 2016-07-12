@@ -6,10 +6,18 @@
 	<command interpreter="bash">
 		<![CDATA[
 			#if $choix=="same"
-				process_filtrage_resultats_mirdeep2_cas_ref_meme_recherche.sh $resultats_mirdeep $word $option.score_new $option.randfold $option.exemple_mirbase $option.score_know $mature $precurseur_espece_sans_espace $mature_and_new $hairpin_espece_and_new $log
+				#if $refMature.matureSource=="indexed"
+					process_filtrage_resultats_mirdeep2_cas_ref_meme_recherche.sh $resultats_mirdeep $word $option.score_new $option.randfold $option.exemple_mirbase $option.score_know ${refMature.index.fields.path} $precurseur_espece_sans_espace $mature_and_new $hairpin_espece_and_new $log
+				#else if $refMature.matureSource=="history"
+					process_filtrage_resultats_mirdeep2_cas_ref_meme_recherche.sh $resultats_mirdeep $word $option.score_new $option.randfold $option.exemple_mirbase $option.score_know $refMature.ownFile $precurseur_espece_sans_espace $mature_and_new $hairpin_espece_and_new $log
+				#end if
 			#end if
 			#if $choix=="different"
-				process_filtrage_resultats_mirdeep2_cas_ref_different_recherche.sh $resultats_mirdeep $word $option.score_new $option.randfold $option.exemple_mirbase $option.score_know $mature $precurseur_espece_sans_espace $mature_and_new $hairpin_espece_and_new $log
+				#if $refMature.matureSource=="indexed"
+					process_filtrage_resultats_mirdeep2_cas_ref_different_recherche.sh $resultats_mirdeep $word $option.score_new $option.randfold $option.exemple_mirbase $option.score_know ${refMature.index.fields.path} $precurseur_espece_sans_espace $mature_and_new $hairpin_espece_and_new $log
+				#else if $refMature.matureSource=="history"
+					process_filtrage_resultats_mirdeep2_cas_ref_different_recherche.sh $resultats_mirdeep $word $option.score_new $option.randfold $option.exemple_mirbase $option.score_know $refMature.ownFile $precurseur_espece_sans_espace $mature_and_new $hairpin_espece_and_new $log
+				#end if
 			#end if
 		]]>
 	</command>
@@ -20,7 +28,22 @@
 		</param>
 		<param format="tabular" name="resultats_mirdeep" type="data" label="results of mirdeep2"/>
 		<param format="txt" name="word" size="30" value="bta" type="text" label="label for word recherched"/>
-		<param format="fasta" name="mature" type="data" label="mature.fa"/>
+		<conditional name="refMature">
+			<param name="matureSource" type="select" label="Will you select a reference mature from your history or use a built-in index?">
+				<option value="indexed">Use hairpins index</option>
+				<option value="history">Use one from the history</option>
+			</param>
+			<when value="indexed">
+				<param name="index" type="select" label="Select a reference mature" help="If your mature of interest is not listed, contact your Galaxy admin.">
+					<options from_data_table="mature_indexes">
+						<validator type="no_options" message="No indexes are available for the selected input dataset"/>
+					</options>
+				</param>
+			</when>
+			<when value="history">
+				<param name="ownFile" type="data" format="fasta" metadata_name="dbkey" label="Select the reference mature" />
+			</when>
+		</conditional>		
 		<param format="fasta" name="precurseur_espece_sans_espace" type="data" label="precurseur_espece_sans_espace.fa"/>
 		<conditional name="option">
 			<param name="choixOption" type="select" label="chek option">

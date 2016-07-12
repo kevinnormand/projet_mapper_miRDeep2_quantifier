@@ -4,11 +4,55 @@
 		 <requirement type="package" version="1.0">outil_utile</requirement>
     </requirements>
 	<command interpreter="bash">
-		process.sh $hairpin $mature $word
+		<![CDATA[
+		#if $refHairpin.hairpinSource=="indexed"
+			#if $refMature.matureSource=="indexed"
+				process.sh ${refHairpin.index.fields.path} ${refMature.index.fields.path} $word
+			#else if $refMature.matureSource=="history"
+				process.sh ${refHairpin.index.fields.path} $refMature.ownFile $word
+			#end if
+		#else if $refHairpin.hairpinSource=="history"
+			#if $refMature.matureSource=="indexed"
+				process.sh $refHairpin.ownFile ${refMature.index.fields.path} $word
+			#else if $refMature.matureSource=="history"
+				process.sh $refHairpin.ownFile $refMature.ownFile $word
+			#end if
+		#end if
+		]]>
 	</command>
-	<inputs>
-		<param format="fasta" name="hairpin" type="data" label="Source hairpin file"/>
-		<param format="fasta" name="mature" type="data" label="Source mature file"/>
+	<inputs>		
+		<conditional name="refHairpin">
+			<param name="hairpinSource" type="select" label="Will you select a reference hairpin from your history or use a built-in index?">
+				<option value="indexed">Use hairpins index</option>
+				<option value="history">Use one from the history</option>
+			</param>
+			<when value="indexed">
+				<param name="index" type="select" label="Select a reference hairpin" help="If your hairpin of interest is not listed, contact your Galaxy admin.">
+					<options from_data_table="hairpin_indexes">
+						<validator type="no_options" message="No indexes are available for the selected input dataset"/>
+					</options>
+				</param>
+			</when>
+			<when value="history">
+				<param name="ownFile" type="data" format="fasta" metadata_name="dbkey" label="Select the reference hairpin" />
+			</when>
+		</conditional>
+		<conditional name="refMature">
+			<param name="matureSource" type="select" label="Will you select a reference mature from your history or use a built-in index?">
+				<option value="indexed">Use mature index</option>
+				<option value="history">Use one from the history</option>
+			</param>
+			<when value="indexed">
+				<param name="index" type="select" label="Select a reference mature" help="If your mature of interest is not listed, contact your Galaxy admin.">
+					<options from_data_table="mature_indexes">
+						<validator type="no_options" message="No indexes are available for the selected input dataset"/>
+					</options>
+				</param>
+			</when>
+			<when value="history">
+				<param name="ownFile" type="data" format="fasta" metadata_name="dbkey" label="Select the reference mature" />
+			</when>
+		</conditional>
 		<param format="txt" name="word" size="30" value="bta" type="text" label="label for word recherched"/>
 	</inputs>
 	<outputs>

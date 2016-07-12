@@ -1,5 +1,5 @@
 <tool id="traitement_resultats_quantifier" name="Traitement des resultats de quantifier" version="1.0">
-	<description>Treat results of quntifier, remove redundancies and annotates mirna</description>
+	<description>Treat results of quantifier, remove redundancies and annotates mirna</description>
 	<requirements>
 		<requirement type="package" version="1.0">outil_utile</requirement>
 	</requirements>

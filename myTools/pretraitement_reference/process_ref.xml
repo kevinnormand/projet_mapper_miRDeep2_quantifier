@@ -4,10 +4,31 @@
 		 <requirement type="package" version="1.0">outil_utile</requirement>
     </requirements>
 	<command interpreter="bash">
-		process_ref.sh $reference
+		<![CDATA[
+		#if $refReference.referenceSource=="indexed"
+			process_ref.sh ${refReference.index.fields.path}
+		#else if $refReference.referenceSource=="history"
+			process_ref.sh $refReference.ownfile
+		#end if
+		]]>
 	</command>
 	<inputs>
-		<param format="fasta" name="reference" type="data" label="Source reference file"/>
+		<conditional name="refReference">
+			<param name="referenceSource" type="select" label="Will you select a reference genome from your history or use a built-in index?">
+				<option value="indexed">Use hairpins index</option>
+				<option value="history">Use one from the history</option>
+			</param>
+			<when value="indexed">
+				<param name="index" type="select" label="Select a reference genome" help="If your genome of interest is not listed, contact your Galaxy admin.">
+					<options from_data_table="genome_indexes">
+						<validator type="no_options" message="No indexes are available for the selected input dataset"/>
+					</options>
+				</param>
+			</when>
+			<when value="history">
+				<param name="ownFile" type="data" format="fasta" metadata_name="dbkey" label="Select the reference genome" />
+			</when>
+		</conditional>
 		<param format="txt" name="word" size="30" value="bta" type="text" label="label for word recherched"/>
 	</inputs>
 	<outputs>
